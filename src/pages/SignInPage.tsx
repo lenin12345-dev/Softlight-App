@@ -1,10 +1,5 @@
-
-import React from "react";
-import {
-  Box,
-  TextField,
-  Button,
-} from "@mui/material";
+import React, { useState } from "react";
+import { Box, TextField, Button } from "@mui/material";
 import AuthLayout from "../components/AuthLayout";
 import GradientButton from "../components/GradientButton";
 
@@ -13,38 +8,58 @@ interface SignInPageProps {
   goToForgot: () => void;
 }
 
-const SignInPage: React.FC<SignInPageProps> = ({
-  goToSignUp,
-  goToForgot,
-}) => {
+const SignInPage: React.FC<SignInPageProps> = ({ goToSignUp, goToForgot }) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [errors, setErrors] = useState<{ email?: string; password?: string }>(
+    {}
+  );
+
+  const handleSubmit = () => {
+    const newErrors: typeof errors = {};
+    if (!email) newErrors.email = "Email is required";
+    else if (!/\S+@\S+\.\S+/.test(email))
+      newErrors.email = "Invalid email address";
+
+    if (!password) newErrors.password = "Password is required";
+    else if (password.length < 6)
+      newErrors.password = "Password must be at least 6 characters";
+
+    setErrors(newErrors);
+
+    if (Object.keys(newErrors).length === 0) {
+      console.log("Sign in:", { email, password });
+    }
+  };
+
   return (
     <AuthLayout title="Sign in">
       <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
         <TextField
           fullWidth
-          defaultValue="andy@gmail.com"
-          InputProps={{
-            sx: {
-              borderRadius: 2,
-              backgroundColor: "#ffffff",
-            },
-          }}
+          label="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          error={!!errors.email}
+          helperText={errors.email}
+          InputProps={{ sx: { borderRadius: 2, backgroundColor: "#ffffff" } }}
         />
         <TextField
           fullWidth
+          label="Password"
           type="password"
-          placeholder="Password"
-          InputProps={{
-            sx: {
-              borderRadius: 2,
-              backgroundColor: "#ffffff",
-            },
-          }}
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          error={!!errors.password}
+          helperText={errors.password}
+          InputProps={{ sx: { borderRadius: 2, backgroundColor: "#ffffff" } }}
         />
       </Box>
 
       <Box sx={{ mt: "auto" }}>
-        <GradientButton fullWidth>Sign in</GradientButton>
+        <GradientButton fullWidth onClick={handleSubmit}>
+          Sign in
+        </GradientButton>
 
         <Button
           fullWidth
@@ -71,14 +86,7 @@ const SignInPage: React.FC<SignInPageProps> = ({
 
         <Button
           onClick={goToForgot}
-          sx={{
-            mt: 2,
-            display: "block",
-            mx: "auto",
-            textTransform: "none",
-            fontSize: 13,
-            color: "#6B7280",
-          }}
+          sx={{ mt: 2, display: "block", mx: "auto" }}
         >
           Forgot password
         </Button>

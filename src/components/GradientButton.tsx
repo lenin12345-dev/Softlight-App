@@ -13,7 +13,7 @@ const GradientButton = (props: React.ComponentProps<typeof Button>) => {
         fontWeight: 500,
         fontSize: 16,
         py: 1.4,
-        backgroundImage: "linear-gradient(90deg, #4F46E5, #EC4899)",
+        backgroundImage: "linear-gradient(90deg, #952286, #3A3CB3)",
         boxShadow: "none",
         "&:hover": {
           boxShadow: "none",
