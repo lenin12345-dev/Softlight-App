@@ -16,6 +16,16 @@ This project implements the sign-in, sign-up, and forgot-password screens based 
 
 - Custom GradientButton for primary actions
 
+##  Limitations
+
+- No backend integration (forms only validate on frontend)
+
+- Basic form validation; some edge cases may not be handled
+
+- Direct file opening (file://) does not work due to CORS restrictions
+
+- No social login options implemented yet
+
 ## How to run locally
 
 ```bash
@@ -31,4 +41,6 @@ npm run dev
 
 # Open your browser at:
 http://localhost:5173
+
+
 
